@@ -24,4 +24,4 @@ jobs:
           pip install fastapi "uvicorn[standard]" sqlalchemy pytest httpx
 
       - name: Run tests
-        run: pytest
+        run: python -m pytest
