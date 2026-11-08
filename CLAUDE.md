@@ -15,17 +15,17 @@ validates and echoes events but does not persist them yet. Planned: storage
 
 ## Running and testing
 
-    pip install -r requirements.txt
+    pip install -r requirements-dev.txt
     uvicorn main:app --reload
     python -m pytest
 
+- Runtime dependencies live in `requirements.txt`; test/dev tools (`pytest`, `httpx`) in
+  `requirements-dev.txt`. Docker installs only `requirements.txt`; CI and local use the dev file.
 - Always run tests with `python -m pytest` (as CI does), not bare `pytest`:
   there is no pytest config, so `from main import app` needs the repo root on `sys.path`.
 - New endpoints or validation changes need tests for the valid case and at least
   one invalid case (`422`).
 - Run tests before reporting work as done; report failures as they are.
-- Known issue: `test_health_returns_ok` expects only `{"status": "ok"}`, but `/health`
-  returns more fields. Ask which behavior is correct; don't silently change either side.
 
 ## Conventions
 
