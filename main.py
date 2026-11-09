@@ -36,9 +36,7 @@ class BodySizeLimitMiddleware:
             and int(declared) > self.max_bytes
         ):
             # Declared too large: answer without reading a single body byte.
-            response = JSONResponse(
-                {"detail": "Request body too large"}, status_code=413
-            )
+            response = JSONResponse({"detail": "Request body too large"}, status_code=413)
             await response(scope, receive, send)
             return
 
@@ -67,10 +65,7 @@ app.add_middleware(BodySizeLimitMiddleware)
 async def validation_error_handler(request: Request, exc: RequestValidationError):
     # Default 422 responses echo the rejected value ("input"), which would send
     # an oversized payload (and possibly personal data) back to the client.
-    errors = [
-        {"type": e["type"], "loc": list(e["loc"]), "msg": e["msg"]}
-        for e in exc.errors()
-    ]
+    errors = [{"type": e["type"], "loc": list(e["loc"]), "msg": e["msg"]} for e in exc.errors()]
     return JSONResponse({"detail": errors}, status_code=422)
 
 
@@ -90,12 +85,7 @@ class EventInput(BaseModel):
 
 @app.get("/health")
 def health_check():
-    return {
-        "status": "ok",
-        "application": "EventFlow",
-        "version": "2.0",
-        "environment": APP_ENV
-    }
+    return {"status": "ok", "application": "EventFlow", "version": "2.0", "environment": APP_ENV}
 
 
 @app.post("/events", status_code=202)
