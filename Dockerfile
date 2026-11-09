@@ -5,6 +5,10 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+RUN groupadd --system app && useradd --system --gid app --no-create-home --shell /usr/sbin/nologin app
+
+COPY --chown=app:app . .
+
+USER app
 
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
