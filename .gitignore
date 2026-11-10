@@ -4,3 +4,4 @@ __pycache__/
 *.pyc
 .env
 eventflow.db
+.DS_Store
